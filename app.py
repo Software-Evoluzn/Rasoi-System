@@ -23,6 +23,84 @@ db = mysql.connector.connect(
 
 cursor = db.cursor(dictionary=True)
 
+# Create tables 
+
+cursor.execute("""
+
+CREATE TABLE IF NOT EXISTS customers (
+
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    name VARCHAR(100),
+
+    mobile VARCHAR(15),
+
+    email VARCHAR(100) UNIQUE,
+
+    password VARCHAR(255),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+)
+
+""")
+
+
+
+cursor.execute("""
+
+CREATE TABLE IF NOT EXISTS products (
+
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+
+    product_name VARCHAR(100),
+
+    serial_number VARCHAR(100),
+
+    qr_code VARCHAR(100),
+
+    warranty_years INT,
+
+    created_at DATETIME,
+
+    device_id VARCHAR(100),
+
+    isRegistered BOOLEAN DEFAULT FALSE
+
+)
+
+""")
+
+
+
+cursor.execute("""
+
+CREATE TABLE IF NOT EXISTS product_registrations (
+
+    id INT PRIMARY KEY AUTO_INCREMENT,
+
+    product_id INT,
+
+    customer_name VARCHAR(100),
+
+    customer_mobile VARCHAR(15),
+
+    purchase_date DATE,
+
+    warranty_expiry DATE,
+
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+)
+
+""")
+
+
+# ----------------------------------create tables -------------------------------------------------
+
+
+
+
 #  --------------------------------------start  login ---------------------------------------------------
 
 @app.route('/')
