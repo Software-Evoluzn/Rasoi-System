@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
+
+</head>
+
+<body class="d-flex justify-content-center align-items-start">
+
+    <div class="phone-wrapper">
+
+        <!-- TOP SECTION -->
+        <div class="top-section">
+
+            <!-- Logo -->
+            <div class="container text-center">
+                <div class="d-flex justify-content-center pt-5">
+                    <img src="../static/img/Capture.PNG" alt="logo" class="img-fluid" width="330">
+                </div>
+                <!-- <p class="text-uppercase fw-semibold small mb-1">
+                    Intellizens Switching Platform For
+                </p>
+                <p class="text-secondary small mb-0">
+                    Smarter Home Automation
+                </p> -->
+            </div>
+
+            <!-- LOGIN CARD -->
+            <div
+                class="login_classes position-absolute start-50 translate-middle w-100 d-flex justify-content-center px-3">
+
+                <div class="login-card p-4">
+
+                    <h3 class="fw-normal mb-4 text-center">Login</h3>
+
+                    <input type="text" 
+                    id="email" 
+                    class="form-control input-custom rounded-3 mb-3" 
+                    placeholder="Email">
+
+                    <!-- Password field with eye toggle -->
+                    <div class="mb-3 position-relative">
+                        <input type="password" class="form-control input-custom rounded-3 pe-5" placeholder="Password"
+                            id="loginPassword">
+                        <button type="button" onclick="togglePass('loginPassword', this)"
+                            class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent shadow-none">
+                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="autoLogin">
+                            <label class="form-check-label small" for="autoLogin">Auto login</label>
+                        </div>
+                        <a href="#" class="forgot-link small">Forgot Password</a>
+                    </div>
+
+                    <button class="btn btn-login w-100"  id="loginBtn" >Login</button>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM SECTION -->
+        <div class="bottom-section">
+
+            <div class="container">
+                <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap pt-3 px-3">
+                    <span class="text-white small">Not Registered?</span>
+                    <a href="/register-page"><button class="btn btn-signup btn-sm px-4">Register</button></a>
+
+
+                </div>
+            </div>
+
+            <p class="text-center text-white-50 small mb-0 pb-1" style="font-size:15px;">
+                Powered by EVOLUZN
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/login.js"></script>
+
+</body>
+
+</html>

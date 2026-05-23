@@ -1,0 +1,125 @@
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: self-start;
+      min-height: 100vh;
+  }
+
+  .warrenty_card_container {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 430px;
+      min-height: 600px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      position: relative;
+      margin-top: 20px;
+  }
+
+  .warrenty_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+  }
+
+  .warrenty_back_arrow {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+      cursor: pointer;
+  }
+
+  .warrenty_title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c3e50;
+  }
+
+  .warrenty_profile_img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: #ddd;
+  }
+
+  .warrenty_horizontal_line {
+      border: none;
+      border-top: 1px solid #eeeeee;
+      margin-bottom: 20px;
+  }
+
+  .warrenty_row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+  }
+
+  .warrenty_label {
+      color: #999999;
+      font-size: 14px;
+  }
+
+  .warrenty_data {
+      color: #333333;
+      font-size: 14px;
+      font-weight: 500;
+  }
+
+  .warrenty_box {
+      background-color: #4F3072;
+      border-radius: 12px;
+      padding: 15px;
+      color: #ffffff;
+      margin: 20px 0;
+  }
+
+  .warrenty_title_box {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: block;
+  }
+
+  .warrenty_message_area {
+      width: 100%;
+      height: 150px;
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      color: #999;
+      resize: none;
+      outline: none;
+  }
+
+  .warrenty_btn_submit {
+      display: block;
+      width: 70%;
+      background-color: #4F3072;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 25px auto 15px auto;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+  }
+
+  .bottom-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 2px;
+  }

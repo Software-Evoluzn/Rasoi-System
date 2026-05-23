@@ -1,0 +1,218 @@
+ * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+ }
+
+ body {
+     font-family: 'DM Sans', sans-serif;
+     background: #F1F5F9;
+     min-height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: flex-start;
+     padding: 32px 16px;
+ }
+
+ .scanner_card {
+     background: #ffffff;
+     border-radius: 20px;
+     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+     width: 100%;
+     max-width: 420px;
+     padding: 32px 28px 28px;
+ }
+
+ .scanner_card_title {
+     font-size: 22px;
+     font-weight: 700;
+     color: #111827;
+     text-align: center;
+ }
+
+ .scanner_card_subtitle {
+     font-size: 14px;
+     color: #6B7280;
+     text-align: center;
+     margin-top: 6px;
+     margin-bottom: 24px;
+ }
+
+ .scanner_box {
+     border: 2px dashed #4F3072;
+     border-radius: 12px;
+     background: #faf9fa;
+     padding: 32px 20px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 14px;
+     margin-bottom: 24px;
+     cursor: pointer;
+ }
+
+ .scanner_box:hover {
+     border-color: #4F3072;
+     background: #fefaff;
+ }
+
+ .scanner_camera_icon {
+     width: 64px;
+     height: 64px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: white;
+     border-radius: 50%;
+     box-shadow: 0 2px 12px rgba(37, 99, 235, 0.13);
+ }
+
+ .scanner_camera_icon svg {
+     width: 30px;
+     height: 30px;
+     color: #2563EB;
+ }
+
+ .scanner_label {
+     font-size: 14px;
+     font-weight: 500;
+     color: #6B7280;
+ }
+
+ .scanner_open_btn {
+     background: #4F3072;
+     color: #ffffff;
+     border: none;
+     border-radius: 10px;
+     padding: 11px 28px;
+     font-family: 'DM Sans', sans-serif;
+     font-size: 14px;
+     font-weight: 600;
+     cursor: pointer;
+ }
+
+
+
+ .scanner_info_block {
+     background: #F9FAFB;
+     border: 1px solid #E5E7EB;
+     border-radius: 12px;
+     padding: 20px;
+     margin-bottom: 20px;
+     display: flex;
+     flex-direction: column;
+     gap: 16px;
+ }
+
+ .scanner_info_row {
+     display: flex;
+     flex-direction: column;
+     gap: 3px;
+ }
+
+ .scanner_info_row:not(:last-child) {
+     padding-bottom: 16px;
+     border-bottom: 1px solid #E5E7EB;
+ }
+
+ .scanner_info_label {
+     font-size: 12px;
+     font-weight: 500;
+     color: #9CA3AF;
+     text-transform: uppercase;
+     letter-spacing: 0.06em;
+ }
+
+ .scanner_info_value {
+     font-family: 'DM Mono', monospace;
+     font-size: 15px;
+     font-weight: 500;
+     color: #111827;
+ }
+
+ .scanner_date_label {
+     font-size: 13px;
+     font-weight: 500;
+     color: #6B7280;
+     margin-bottom: 4px;
+ }
+
+ .scanner_date_wrap {
+     position: relative;
+ }
+
+ .scanner_date_input {
+     width: 100%;
+     border: 1.5px solid #E5E7EB;
+     border-radius: 10px;
+     padding: 11px 44px 11px 14px;
+     font-family: 'DM Sans', sans-serif;
+     font-size: 14px;
+     color: #111827;
+     background: white;
+     outline: none;
+     appearance: none;
+     -webkit-appearance: none;
+ }
+
+ .scanner_date_input:focus {
+     border-color: #2563EB;
+ }
+
+ .scanner_date_icon {
+     position: absolute;
+     right: 13px;
+     top: 50%;
+     transform: translateY(-50%);
+     pointer-events: none;
+     color: #9CA3AF;
+ }
+
+ .scanner_date_icon svg {
+     width: 18px;
+     height: 18px;
+ }
+
+ input[type="date"]::-webkit-calendar-picker-indicator {
+     opacity: 0;
+     cursor: pointer;
+ }
+
+ input[type="password"]::-ms-reveal,
+ input[type="password"]::-ms-clear {
+     display: none;
+ }
+
+ .scanner_link_btn {
+     width: 100%;
+     background: #4F3072;
+     color: white;
+     border: none;
+     border-radius: 14px;
+     padding: 15px;
+     font-family: 'DM Sans', sans-serif;
+     font-size: 15px;
+     font-weight: 700;
+     cursor: pointer;
+     box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+ }
+
+ .scanner_footer_text {
+     text-align: center;
+     margin-top: 20px;
+     color: #6B7280;
+ }
+
+ @media (max-width: 480px) {
+     body {
+         padding: 16px 10px;
+     }
+
+     .scanner_card {
+         padding: 24px 16px 20px;
+     }
+
+     .scanner_card_title {
+         font-size: 20px;
+     }
+ }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+</head>
+
+<body class="d-flex justify-content-center align-items-start">
+
+    <div class="phone-wrapper">
+
+        <!-- TOP SECTION -->
+        <div class="top-section">
+
+            <!-- Logo -->
+            <div class="container text-center">
+
+                <div class="d-flex justify-content-center pt-5">
+                    <img src="../static/img/Capture.PNG" alt="logo" class="img-fluid" width="330">
+                </div>
+
+                <!-- <p class="text-uppercase fw-semibold small mb-1">
+                    Intellizens Switching Platform For
+                </p>
+
+                <p class="text-secondary small mb-0">
+                    Smarter Home Automation
+                </p> -->
+            </div>
+
+            <!-- SIGNUP CARD -->
+            <div
+                class="login_classes position-absolute start-50 translate-middle w-100 d-flex justify-content-center px-3">
+
+                <div class="login-card p-4">
+                    <h2 class="fw-normal text-center mb-2">Sign Up</h2>
+
+                    <div class="mb-3">
+                        <input type="text" 
+                        id="name"
+                        class="form-control rounded-3 border-0 bg-light py-2 px-3"
+                            placeholder="User Name">
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <input type="password" 
+                        class="form-control rounded-3 border-0 bg-light py-2 px-3 pe-5"
+                            placeholder="Password"
+                             id="signupPassword">
+                        <button type="button" onclick="togglePass('signupPassword', this)"
+                            class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent shadow-none">
+                            <i class="ti ti-eye" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <input type="password" class="form-control rounded-3 border-0 bg-light py-2 px-3 pe-5"
+                            placeholder="Confirm Password" id="confirmPassword">
+                        <button type="button" onclick="togglePass('confirmPassword', this)"
+                            class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent shadow-none">
+                            <i class="ti ti-eye" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email"
+                        id="email"
+                         class="form-control rounded-3 border-0 bg-light py-2 px-3"
+                            placeholder="Email ID">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="tel" 
+                        id="mobile"
+                        class="form-control rounded-3 border-0 bg-light py-2 px-3"
+                            placeholder="Mobile Number">
+                    </div>
+
+                    <button class="btn btn-login w-100" 
+                          id="registerBtn"
+                    >
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM SECTION -->
+        <div class="bottom-section">
+
+            <!-- signup link row -->
+            <!-- <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap pt-5 px-3">
+                <span class="text-white small">Already have an account?</span>
+                <a href="../templates/login.html"><button class="btn btn-signup btn-sm px-4">Login</button></a>
+            </div> -->
+
+            <!-- powered text pinned to bottom -->
+            <div class="bottom-content">
+                <p class="text-center text-white-50 small mb-0 pb-1" style="font-size:15px;">
+                    Powered by EVOLUZN
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/register.js"></script>
+      
+
+</body>
+
+</html>

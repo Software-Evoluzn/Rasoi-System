@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Locks the body to exactly the screen height */
+    overflow: hidden; /* Prevents any accidental page scrolling */
+    position: relative; 
+}
+
+.otp_page_container {
+    flex: 1; /* Automatically takes up all space above the footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    position: relative;
+    padding: 20px;
+}
+
+/* Background element position targets the page container context */
+.otp_bg_curve {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 52%;
+    background: #4E2E6F;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.otp_container {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.otp_logo_container {
+    margin-bottom: 30px; /* Reduced slightly to comfortably fit small screens */
+    font-size: 2.5rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    letter-spacing: -1px;
+}
+
+.otp_card {
+    background: #fff;
+    width: 100%;
+    border-radius: 28px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    margin-bottom: 25px; /* Reduced slightly to prevent pushing footer */
+}
+
+.otp_card h2 {
+    font-size: 1.85rem;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.otp_subtitle {
+    font-size: 0.95rem;
+    color: #757575;
+    margin-bottom: 30px;
+}
+
+.otp_inputs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 30px auto;
+}
+
+.otp_field {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #F0F2F5;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #222;
+    outline: none;
+}
+
+.otp_field:focus {
+    background: #E2E5EA;
+    box-shadow: 0 0 0 2px #4E2E6F;
+}
+
+.otp_verify_btn {
+    width: 100%;
+    background: #4E2E6F;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.otp_footer_text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+.otp_resend_link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+    .otp_bg_curve {
+        height: 48%;
+    }
+
+    .otp_card {
+        padding: 25px 20px;
+    }
+
+    .otp_logo_container {
+        font-size: 2.1rem;
+    }
+}
+
+.footer {
+    background: #4E2E6F;
+    color: white;
+    text-align: center;
+    z-index: 2; /* Ensures footer content stacks over backgrounds if they overlap */
+}
+
+.footer_text {
+    padding: 12px;
+    font-size: 0.85rem;
+}

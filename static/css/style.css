@@ -1,0 +1,142 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f2f2f2;
+    min-height: 100vh;
+}
+
+.phone-wrapper {
+    width: 100%;
+    max-width: 420px;
+    min-height: 100vh;
+    background: #d6d3dc;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.top-section {
+    background: #ffffff;
+    min-height: 50vh;
+    padding-top: 40px;
+    position: relative;
+}
+
+.btn-login {
+    background: #4F3072;
+    color: white;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-login:hover {
+    background: #4F3072;
+    color: white;
+
+}
+
+.bottom-section {
+    background: #4F3072;
+    min-height: 50vh;
+    padding-top: 170px;
+    /* flex to push powered-text to bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bottom-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2px;
+}
+
+.login-card {
+    width: 95%;
+    max-width: 320px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        0 20px 40px rgba(0, 0, 0, 0.10);
+}
+
+.input-custom {
+    background: #e8e8e8;
+    border: none;
+    height: 50px;
+}
+
+.input-custom:focus {
+    background: #e2e2e2;
+    box-shadow: none;
+    border: none;
+}
+
+.btn-login {
+    background: #4F3072;
+    color: white;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-login:hover {
+    background: #4F3072;
+    color: white;
+
+}
+
+.btn-signup {
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: white;
+    background: transparent;
+}
+
+.btn-signup:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.forgot-link {
+    color: #4F3072;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.login_classes {
+    top: 95%;
+}
+
+@media (min-width: 768px) {
+    .phone-wrapper {
+        max-width: 500px;
+        border-radius: 20px;
+        min-height: auto;
+        margin: 30px 0;
+    }
+
+    .top-section {
+        min-height: 500px;
+    }
+
+    .bottom-section {
+        min-height: 300px;
+        padding-top: 125px;
+    }
+
+    .login_classes {
+        top: 85%;
+    }
+}
+
+
+/* Remove Edge's built-in password reveal button */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}

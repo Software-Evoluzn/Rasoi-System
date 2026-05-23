@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/otp.css">
+</head>
+
+<body>
+
+    <div class="otp_page_container">
+        <!-- Absolute Background Element -->
+        <div class="otp_bg_curve"></div>
+
+        <div class="otp_container">
+            <div class="otp_logo_container">
+                <span>
+                    <img src="../static/img/Capture.PNG" alt="Rasoi Logo" class="otp_logo_img">
+                </span>
+            </div>
+
+            <div class="otp_card">
+                <h2>Verify OTP</h2>
+                <p class="otp_subtitle">Enter the OTP sent to your mobile number</p>
+
+                <div class="otp_inputs">
+                    <input type="text" maxlength="1" class="otp_field" pattern="[0-9]*" inputmode="numeric"
+                        autocomplete="one-time-code" required>
+                    <input type="text" maxlength="1" class="otp_field" pattern="[0-9]*" inputmode="numeric" required>
+                    <input type="text" maxlength="1" class="otp_field" pattern="[0-9]*" inputmode="numeric" required>
+                    <input type="text" maxlength="1" class="otp_field" pattern="[0-9]*" inputmode="numeric" required>
+                </div>
+
+                <button type="button" class="otp_verify_btn">Verify OTP</button>
+            </div>
+
+            <div class="otp_footer_text">
+                Didn't receive the OTP? <a href="#" class="otp_resend_link">Resend OTP</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- The footer sits directly at the bottom without shifting page limits -->
+    <div class="footer">
+        <div class="footer_text">
+            Powered by EVOLUZN
+        </div>
+    </div>
+
+    <script src="../static/js/otp.js"></script>
+      
+</body>
+
+</html>
