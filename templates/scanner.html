@@ -2,78 +2,161 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
+
     <title>Register Product</title>
+
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="../static/css/scanner.css">
-    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet"
+        href="../static/css/scanner.css">
 
+    <link rel="icon"
+        type="image/png"
+        href="../static/img/tab_logo.png">
+
+    <!-- QR SCANNER -->
+    
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 </head>
-
 
 <body>
 
     <div class="scanner_card">
-        <h1 class="scanner_card_title">Register Product</h1>
-        <p class="scanner_card_subtitle">Scan QR code to link your product</p>
 
-        <div class="scanner_box" onclick="document.getElementById('scanner_qr_input').click()">
-            <div id="reader" style="width:300px; margin:auto;"></div>
+        <h1 class="scanner_card_title">
+            Register Product
+        </h1>
+
+        <p class="scanner_card_subtitle">
+            Scan QR code to link your product
+        </p>
+
+        <!-- SCANNER BOX -->
+        <div class="scanner_box">
+
+            <!-- CAMERA VIEW -->
+            <div id="reader"></div>
+
+            <!-- CAMERA ICON -->
             <div class="scanner_camera_icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#da83f5" stroke-width="1.8" stroke-linecap="round"
+
+                <svg viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#da83f5"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
                     stroke-linejoin="round">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                    <circle cx="12" cy="13" r="4" />
+
+                    <path
+                        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+
+                    <circle cx="12"
+                        cy="13"
+                        r="4" />
+
                 </svg>
+
             </div>
-            <span class="scanner_label">Scan Product QR Code</span>
-            <button class="scanner_open_btn" onclick="event.stopPropagation()">Open Scanner</button>
-            <input type="file" id="scanner_qr_input" accept="image/*" capture="environment" style="display:none">
+
+            <!-- LABEL -->
+            <span class="scanner_label">
+                Scan Product QR Code
+            </span>
+
+            <!-- BUTTON -->
+            <button class="scanner_open_btn">
+                Open Scanner
+            </button>
+
         </div>
 
+        <!-- PRODUCT DETAILS -->
         <div class="scanner_info_block">
+
+            <!-- SERIAL NUMBER -->
             <div class="scanner_info_row">
-                <span class="scanner_info_label">Serial Number</span>
-                <span class="scanner_info_value" id="serial_number">-</span>
+
+                <span class="scanner_info_label">
+                    Serial Number
+                </span>
+
+                <span class="scanner_info_value"
+                    id="serial_number">
+                    -
+                </span>
+
             </div>
+
+            <!-- MODEL -->
             <div class="scanner_info_row">
-                <span class="scanner_info_label">Model Number</span>
-                <span class="scanner_info_value" id="model_name">-</span>
+
+                <span class="scanner_info_label">
+                    Model Number
+                </span>
+
+                <span class="scanner_info_value"
+                    id="model_name">
+                    -
+                </span>
+
             </div>
+
+            <!-- MAC -->
             <div class="scanner_info_row">
-                <span class="scanner_info_label">MAC ID</span>
-                <span class="scanner_info_value" id="mac_id">-</span>
+
+                <span class="scanner_info_label">
+                    MAC ID
+                </span>
+
+                <span class="scanner_info_value"
+                    id="mac_id">
+                    -
+                </span>
+
             </div>
+
+            <!-- DATE -->
             <div class="scanner_info_row">
-                <span class="scanner_info_label">Date of Purchase</span>
+
+                <span class="scanner_info_label">
+                    Date of Purchase
+                </span>
+
                 <div class="scanner_date_wrap">
-                    <input type="date" class="scanner_date_input" id="scanner_purchase_date" />
-                    <span class="scanner_date_icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                    </span>
+
+                    <input type="date"
+                        class="scanner_date_input"
+                        id="scanner_purchase_date" />
+
                 </div>
+
             </div>
+
         </div>
 
-        <button class="scanner_link_btn">Link Product</button>
+        <!-- LINK BUTTON -->
+        <button class="scanner_link_btn">
+            Link Product
+        </button>
 
-        <div class="scanner_footer_text" style="font-size:12px; " style="text-align: center;margin-top: 20px;">Powered
-            by EVOLUZN</div>
+        <!-- FOOTER -->
+        <div class="scanner_footer_text">
+
+            Powered by EVOLUZN
+
+        </div>
 
     </div>
 
+    <!-- JS -->
     <script src="../static/js/scanner.js"></script>
 
 </body>

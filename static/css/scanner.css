@@ -38,6 +38,31 @@
      margin-bottom: 24px;
  }
 
+
+
+ /* sejal add reader */
+
+ #reader {
+    width: 100%;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+#reader video {
+    width: 100% !important;
+    border-radius: 20px;
+}
+
+#reader__scan_region {
+    background: transparent !important;
+}
+
+
+
+
+ /* -------------------------- */
+
  .scanner_box {
      border: 2px dashed #4F3072;
      border-radius: 12px;

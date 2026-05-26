@@ -30,9 +30,7 @@ for product in products:
 
     device_id = product[0]
 
-    qr_url = f"http://192.168.1.53:5000/product/{device_id}"
-
-    img = qrcode.make(qr_url)
+    img = qrcode.make(device_id)
 
     img.save(f"qrcodes/{device_id}.png")
 

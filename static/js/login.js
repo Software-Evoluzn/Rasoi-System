@@ -36,7 +36,7 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
 
         try {
 
-                const response = await fetch("http://127.0.0.1:5000/login", {
+                const response = await fetch("http://192.168.1.53:5000/login", {
                         method: "POST",
 
                         headers: {
@@ -57,7 +57,7 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
                         alert(data.message);
 
                         // Redirect after login
-                        window.location.href = "/";
+                        window.location.href = "/product_scan";
 
                 } else {
 

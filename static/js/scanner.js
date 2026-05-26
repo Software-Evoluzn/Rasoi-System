@@ -1,73 +1,181 @@
 let scanDeviceId = "";
 
+// CREATE QR SCANNER
+const html5QrCode = new Html5Qrcode("reader");
+
+
+// SUCCESS CALLBACK
 function onScanSuccess(decodedText) {
-    scanDeviceId = decodedText;
 
+    // scanDeviceId = decodedText.split("/").pop();
+         scanDeviceId = decodedText.trim();
 
-    //stop scanner
+        alert(
+        "Scanned Device ID: " +
+        scanDeviceId
+    );
 
-    html5QrcodeScanner.clear();
+    console.log(
+        "Scanner Device Id:",
+        decodedText
+    );
 
-    //fetch products details
+    // STOP CAMERA AFTER SCAN
+    html5QrCode.stop();
 
-    fetch("http://127.0.0.1:5000/product/" + decodedText)
-        .then(response => response.json())
-        .then(data => {
+    // FETCH PRODUCT DETAILS
+    fetch(
+        `http://192.168.1.53:5000/product/${scanDeviceId}`
+    )
 
-            console.log(data);
+    .then(response => response.json())
 
-            document.getElementById("serial_number").innerText =
-                data.serial_number;
+    .then(data => {
 
-            document.getElementById("model_name").innerText =
-                data.product_name;
+        console.log(data);
 
-            document.getElementById("mac_id").innerText =
-                decodedText;
+        // if (data.error) {
 
-        })
-        .catch(error => {
+        //     alert(data.error);
+        //     return;
+        // }
 
-            console.log(error);
+        // SHOW PRODUCT DETAILS
+        document.getElementById(
+            "serial_number"
+        ).innerText =
+            data.serial_number;
 
-            alert("Invalid Product");
+        document.getElementById(
+            "model_name"
+        ).innerText =
+            data.model_number;
 
-        });
+        document.getElementById(
+            "mac_id"
+        ).innerText =
+            data.mac_id;
+
+    })
+
+    .catch(error => {
+
+        console.log(error);
+
+        alert("Server Error");
+
+    });
 
 }
 
 
-let html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader",
-    {
-        fps: 10,
-        qrbox: 250
-    }
-);
-
-//open camera 
-
+// OPEN CAMERA
 document.querySelector(".scanner_open_btn")
-      .addEventListener("click" , function(){
+.addEventListener("click", async function () {
 
-        html5QrcodeScanner.render(onScanSuccess)
+    try {
 
-      })
+        await html5QrCode.start(
 
-//LINK PRODUCT
+            // FORCE BACK CAMERA
+            {
+                facingMode: "environment"
+            },
 
-document.querySelector(".scanner_link_btn")
-.addEventListener("click" , async function(){
+            {
+                fps: 10,
 
-    try{
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
+            },
 
-        
-       }
-       catch(error){
-        console.log(error)
-       }
+            onScanSuccess
+        );
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+        alert(err);
+
+    }
 
 });
 
 
+// LINK PRODUCT
+document.querySelector(".scanner_link_btn")
+.addEventListener("click", async function () {
 
+    const purchase_date =
+        document.getElementById(
+            "scanner_purchase_date"
+        ).value;
+
+    if (!scanDeviceId) {
+
+        alert("Please scan product first");
+        return;
+    }
+
+    if (!purchase_date) {
+
+        alert("Please select purchase date");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+
+            "http://192.168.1.53:5000/register-product",
+
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    device_id: scanDeviceId,
+
+                    
+                    purchase_date: purchase_date
+
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if (response.ok) {
+
+            alert(
+                "Product Linked Successfully"
+            );
+
+        } else {
+
+            alert(data.error);
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        alert("Server Error");
+
+    }
+
+});

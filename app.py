@@ -3,12 +3,16 @@ import mysql.connector
 from datetime import datetime, timedelta
 from flask_cors import CORS
 
+from flask import session
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import qrcode
 print("working")
 
 app = Flask(__name__)
+app.secret_key = "rasoi_secret_key"
+
 CORS(app)
 
 # -------------------------------
@@ -133,6 +137,8 @@ def login_customer():
             stored_password = customer['password']
             
             if check_password_hash(stored_password , password):
+                 session["customer_id"] = customer["customer_id"]
+                
                  return jsonify({
                 "message" : "Login Successfull"
                 
@@ -207,6 +213,9 @@ def register_customer():
 
 #  ----------------------------------------------------product linking  start ---------------------------------------
 
+@app.route('/product_scan')
+def product_link():
+    return render_template('scanner.html')
 
 
 
@@ -256,8 +265,11 @@ def add_product():
 def product_page(device_id):
 
      query = """
-     SELECT *
-     FROM products
+       SELECT
+        serial_number,
+        model_number,
+        mac_id
+    FROM products
     WHERE device_id=%s
     """
 
@@ -267,55 +279,21 @@ def product_page(device_id):
 
      if not product:
         return jsonify({
-            "error": "Invalid Product"
+             "serial_number": "Not Found",
+
+        "model_number": "Not Found",
+
+        "mac_id": "Not Found"
         }), 404
+        
+     return jsonify({
+        "serial_number": product["serial_number"],
 
-     return f"""
+        "model_number": product["model_number"],
 
-    <h2>Product Found</h2>
+        "mac_id": product["mac_id"]
+    })
 
-    <p>Device ID: {device_id}</p>
-
-    <button onclick="registerProduct()">
-        Register Product
-    </button>
-
-    <script>
-
-    async function registerProduct() {{
-
-        const response = await fetch(
-            "http://192.168.1.53:5000/register-product",
-            {{
-
-                method: "POST",
-
-                headers: {{
-                    "Content-Type": "application/json"
-                }},
-
-                body: JSON.stringify({{
-
-                    device_id: "{device_id}",
-                    customer_name: "Sejal",
-                    customer_mobile: "9876543210",
-                    purchase_date: "2026-05-19"
-
-                }})
-
-            }}
-        )
-
-        const data = await response.json()
-        console.log(data);
-
-        alert(JSON.stringify(data))
-
-    }}
-
-    </script>
-
-    """
      
      
  #  Qr-code forming and product linking;
@@ -323,15 +301,35 @@ def product_page(device_id):
 def register_product():
 
     try:
-         
+
         data = request.get_json()
-        
+
         device_id = data.get("device_id")
-        customer_name = data.get("customer_name")
-        customer_mobile = data.get("customer_mobile")
         purchase_date = data.get("purchase_date")
 
-        # FIND PRODUCT
+        customer_id = session.get("customer_id")
+
+        if not customer_id:
+
+            return jsonify({
+                "error": "User not logged in"
+            }), 401
+
+        # CUSTOMER DETAILS
+        customer_query = """
+        SELECT name, mobile
+        FROM customers
+        WHERE customer_id=%s
+        """
+
+        cursor.execute(customer_query, (customer_id,))
+
+        customer = cursor.fetchone()
+
+        customer_name = customer["name"]
+        customer_mobile = customer["mobile"]
+
+        # PRODUCT CHECK
         query = """
         SELECT product_id, warranty_years, isRegistered
         FROM products
@@ -343,17 +341,17 @@ def register_product():
         product = cursor.fetchone()
 
         if not product:
+
             return jsonify({
                 "error": "Product not found"
             }), 404
 
-        # CHECK ALREADY REGISTERED
         if product["isRegistered"]:
+
             return jsonify({
                 "error": "Product already registered"
             }), 400
 
-        # WARRANTY
         purchase_date_obj = datetime.strptime(
             purchase_date,
             "%Y-%m-%d"
@@ -364,7 +362,7 @@ def register_product():
             timedelta(days=365 * product["warranty_years"])
         )
 
-        # STORE CUSTOMER LINKING
+        # INSERT REGISTRATION
         insert_query = """
         INSERT INTO product_registrations
         (
@@ -374,7 +372,7 @@ def register_product():
             purchase_date,
             warranty_expiry
         )
-        VALUES (%s, %s, %s, %s, %s)
+        VALUES (%s,%s,%s,%s,%s)
         """
 
         values = (
@@ -387,10 +385,10 @@ def register_product():
 
         cursor.execute(insert_query, values)
 
-        # MARK REGISTERED
+        # UPDATE PRODUCT
         update_query = """
         UPDATE products
-        SET isRegistered = TRUE
+        SET isRegistered=TRUE
         WHERE product_id=%s
         """
 
@@ -402,10 +400,14 @@ def register_product():
         db.commit()
 
         return jsonify({
+
             "message": "Product Linked Successfully",
-            "device_id": device_id,
+
             "customer_name": customer_name,
-            "warranty_expiry": str(warranty_expiry.date())
+
+            "warranty_expiry":
+            str(warranty_expiry.date())
+
         })
 
     except Exception as e:
@@ -413,7 +415,6 @@ def register_product():
         return jsonify({
             "error": str(e)
         }), 500
-
 
 
 
@@ -543,6 +544,9 @@ def create_ticket():
 # MAIN
 # -------------------------------
 if __name__ == '__main__':
-    app.run( host="0.0.0.0",
+    app.run(
+        host="0.0.0.0",
     port=5000,
-    debug=True)
+    
+    debug=True
+     )
