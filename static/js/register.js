@@ -34,7 +34,13 @@ document.getElementById("registerBtn").addEventListener("click" , async function
      
       try{
 
-         const response = await fetch("http://192.168.1.53:5000/register", {
+         // Read IP from JSON file
+                const configResponse = await fetch("../static/js/ip.json");
+                const config = await configResponse.json();
+
+                const BASE_URL = config.ip;
+
+         const response = await fetch(`${BASE_URL}/register`, {
 
               method: "POST",
                headers: {

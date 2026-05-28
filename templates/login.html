@@ -6,102 +6,653 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
 
+    <style>
+        /* ── FORGOT PASSWORD MODAL ── */
+        .fp-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1050;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .fp-overlay.active { display: flex; }
+
+        .fp-modal {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            width: 92%;
+            max-width: 390px;
+            animation: fpUp 0.25s ease;
+        }
+        @keyframes fpUp {
+            from { transform: translateY(28px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+
+        .fp-step          { display: none; }
+        .fp-step.active   { display: block; }
+
+        /* step indicator */
+        .fp-steps-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .fp-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #dee2e6;
+            transition: background 0.2s;
+        }
+        .fp-dot.done    { background: #533483; }
+        .fp-dot.active  { background: #533483; transform: scale(1.3); }
+
+        /* inputs */
+        .fp-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 14px;
+            transition: border-color .2s;
+        }
+        .fp-input:focus { border-color: #533483; box-shadow: 0 0 0 3px rgba(83,52,131,.1); }
+
+        .fp-pass-wrap               { position: relative; margin-bottom: 14px; }
+        .fp-pass-wrap .fp-input     { margin-bottom: 0; padding-right: 44px; }
+        .fp-eye {
+            position: absolute; right: 12px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none;
+            cursor: pointer; color: #6c757d; padding: 0;
+        }
+
+        /* OTP boxes */
+        .otp-row  { display: flex; gap: 8px; justify-content: center; margin: 10px 0 6px; }
+        .otp-box  {
+            width: 44px; height: 50px;
+            text-align: center; font-size: 22px; font-weight: 600;
+            border: 1.5px solid #dee2e6; border-radius: 8px;
+            outline: none; color: #533483;
+            transition: border-color .2s;
+        }
+        .otp-box:focus { border-color: #533483; box-shadow: 0 0 0 3px rgba(83,52,131,.1); }
+
+        /* timer */
+        .fp-timer { font-size: 13px; color: #888; text-align: center; margin-bottom: 6px; }
+        .fp-timer span { color: #533483; font-weight: 500; }
+
+        /* resend */
+        .resend-btn {
+            display: block; width: 100%; background: none; border: none;
+            font-size: 13px; color: #533483; cursor: pointer;
+            margin-bottom: 14px; text-align: center;
+        }
+        .resend-btn:disabled { color: #aaa; cursor: not-allowed; }
+        .resend-btn:not(:disabled):hover { text-decoration: underline; }
+
+        /* strength bar */
+        .strength-bar  { height: 5px; background: #eee; border-radius: 3px; margin: 4px 0 3px; overflow: hidden; }
+        .strength-fill { height: 100%; width: 0%; border-radius: 3px; transition: width .3s, background .3s; }
+        .strength-txt  { font-size: 12px; margin-bottom: 10px; }
+
+        /* buttons */
+        .btn-fp-primary {
+            width: 100%; padding: 11px;
+            background: #533483; color: #fff;
+            border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 500;
+            cursor: pointer; margin-bottom: 8px;
+            transition: background .2s;
+        }
+        .btn-fp-primary:hover    { background: #3d2568; }
+        .btn-fp-primary:disabled { background: #a894c8; cursor: not-allowed; }
+
+        .btn-fp-back {
+            width: 100%; padding: 10px;
+            background: none; border: 1px solid #dee2e6;
+            border-radius: 8px; font-size: 14px; color: #6c757d;
+            cursor: pointer; transition: background .15s;
+        }
+        .btn-fp-back:hover { background: #f8f9fa; }
+
+        /* error / success toast inside modal */
+        .fp-alert {
+            font-size: 13px; padding: 8px 12px;
+            border-radius: 6px; margin-bottom: 12px;
+            display: none;
+        }
+        .fp-alert.error   { display: block; background: #fff2f2; color: #c0392b; border: 1px solid #f5c6c6; }
+        .fp-alert.success { display: block; background: #f0fff4; color: #1e7e34; border: 1px solid #b7e4c7; }
+
+        /* success screen */
+        .success-circle {
+            width: 68px; height: 68px; border-radius: 50%;
+            background: #eaf3de;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .success-circle svg { width: 34px; height: 34px; stroke: #3b6d11; }
+    </style>
 </head>
 
 <body class="d-flex justify-content-center align-items-start">
 
-    <div class="phone-wrapper">
+<div class="phone-wrapper">
 
-        <!-- TOP SECTION -->
-        <div class="top-section">
-
-            <!-- Logo -->
-            <div class="container text-center">
-                <div class="d-flex justify-content-center pt-5">
-                    <img src="../static/img/Capture.PNG" alt="logo" class="img-fluid" width="330">
-                </div>
-                <!-- <p class="text-uppercase fw-semibold small mb-1">
-                    Intellizens Switching Platform For
-                </p>
-                <p class="text-secondary small mb-0">
-                    Smarter Home Automation
-                </p> -->
+    <!-- TOP SECTION -->
+    <div class="top-section">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center pt-5">
+                <img src="../static/img/Capture.PNG" alt="logo" class="img-fluid" width="330">
             </div>
+        </div>
 
-            <!-- LOGIN CARD -->
-            <div
-                class="login_classes position-absolute start-50 translate-middle w-100 d-flex justify-content-center px-3">
+        <!-- LOGIN CARD -->
+        <div class="login_classes position-absolute start-50 translate-middle w-100 d-flex justify-content-center px-3">
+            <div class="login-card p-4">
 
-                <div class="login-card p-4">
+                <h3 class="fw-normal mb-4 text-center">Login</h3>
 
-                    <h3 class="fw-normal mb-4 text-center">Login</h3>
-
-                    <input type="text" 
-                    id="email" 
-                    class="form-control input-custom rounded-3 mb-3" 
+                <input type="text" id="email"
+                    class="form-control input-custom rounded-3 mb-3"
                     placeholder="Email">
 
-                    <!-- Password field with eye toggle -->
-                    <div class="mb-3 position-relative">
-                        <input type="password" class="form-control input-custom rounded-3 pe-5" placeholder="Password"
-                            id="loginPassword">
-                        <button type="button" onclick="togglePass('loginPassword', this)"
-                            class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent shadow-none">
-                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="autoLogin">
-                            <label class="form-check-label small" for="autoLogin">Auto login</label>
-                        </div>
-                        <a href="#" class="forgot-link small">Forgot Password</a>
-                    </div>
-
-                    <button class="btn btn-login w-100"  id="loginBtn" >Login</button>
-
+                <div class="mb-3 position-relative">
+                    <input type="password"
+                        class="form-control input-custom rounded-3 pe-5"
+                        placeholder="Password" id="loginPassword">
+                    <button type="button" onclick="togglePass('loginPassword',this)"
+                        class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent shadow-none">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
                 </div>
-            </div>
 
-        </div>
-
-        <!-- BOTTOM SECTION -->
-        <div class="bottom-section">
-
-            <div class="container">
-                <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap pt-3 px-3">
-                    <span class="text-white small">Not Registered?</span>
-                    <a href="/register-page"><button class="btn btn-signup btn-sm px-4">Register</button></a>
-
-
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <!-- <input class="form-check-input" type="checkbox" id="autoLogin">
+                        <label class="form-check-label small" for="autoLogin">Auto login</label> -->
+                    </div>
+                    <!-- Forgot Password trigger -->
+                    <a href="#" class="forgot-link small" id="forgotLink">Forgot Password ?</a>
                 </div>
+
+                <button class="btn btn-login w-100" id="loginBtn">Login</button>
             </div>
-
-            <p class="text-center text-white-50 small mb-0 pb-1" style="font-size:15px;">
-                Powered by EVOLUZN
-            </p>
-
         </div>
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/login.js"></script>
+    <!-- BOTTOM SECTION -->
+    <div class="bottom-section">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap pt-3 px-3">
+                <span class="text-white small">Not Registered?</span>
+                <a href="/register-page"><button class="btn btn-signup btn-sm px-4">Register</button></a>
+            </div>
+        </div>
+        <p class="text-center text-white-50 small mb-0 pb-1" style="font-size:15px;">
+            Powered by EVOLUZN
+        </p>
+    </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     FORGOT PASSWORD MODAL
+══════════════════════════════════════════ -->
+<div class="fp-overlay" id="fpOverlay">
+  <div class="fp-modal">
+
+    <!-- Step dots -->
+    <div class="fp-steps-indicator">
+      <div class="fp-dot active" id="dot1"></div>
+      <div class="fp-dot"       id="dot2"></div>
+      <div class="fp-dot"       id="dot3"></div>
+    </div>
+
+    <!-- Alert bar (shared across steps) -->
+    <div class="fp-alert" id="fpAlert"></div>
+
+    <!-- ── STEP 1: Email ── -->
+    <div class="fp-step active" id="fpStep1">
+      <h5 class="fw-semibold mb-1">Forgot Password?</h5>
+      <p class="text-muted small mb-3">
+        Enter your registered email address.<br>
+        We will send a verification OTP to your Gmail.
+      </p>
+      <input type="email" class="fp-input" id="fpEmail"
+             placeholder="Email address">
+      <button class="btn-fp-primary" id="btnSendOtp" onclick="fpSendOtp()">
+        Send OTP
+      </button>
+      <button class="btn-fp-back" onclick="fpClose()">Cancel</button>
+    </div>
+
+    <!-- ── STEP 2: OTP ── -->
+    <div class="fp-step" id="fpStep2">
+      <h5 class="fw-semibold mb-1">Verify OTP</h5>
+      <p class="text-muted small mb-1" id="fpOtpMsg">
+        A 6-digit OTP has been sent to your email address.
+      </p>
+
+      <div class="otp-row" id="otpRow">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+        <input class="otp-box" maxlength="1" inputmode="numeric">
+      </div>
+
+      <!-- Countdown timer -->
+      <div class="fp-timer" id="fpTimerLine">
+        OTP valid for: <span id="fpCountdown">10:00</span>
+      </div>
+
+      <button class="resend-btn" id="btnResend" onclick="fpResend()" disabled>
+        Didn't receive OTP? Resend (available in 60s)
+      </button>
+
+      <button class="btn-fp-primary" id="btnVerifyOtp" onclick="fpVerifyOtp()">
+        Verify OTP
+      </button>
+      <button class="btn-fp-back" onclick="fpGoStep(1)">← Back</button>
+    </div>
+
+    <!-- ── STEP 3: New Password ── -->
+    <div class="fp-step" id="fpStep3">
+      <h5 class="fw-semibold mb-1">Set New Password</h5>
+      <p class="text-muted small mb-3">Choose a strong new password.</p>
+
+      <div class="fp-pass-wrap">
+        <input type="password" class="fp-input" id="fpNewPw"
+               placeholder="New password" oninput="fpStrength(this.value)">
+        <button class="fp-eye" type="button" onclick="fpEye('fpNewPw')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="strength-bar"><div class="strength-fill" id="sFill"></div></div>
+      <div class="strength-txt" id="sTxt"></div>
+
+      <div class="fp-pass-wrap">
+        <input type="password" class="fp-input" id="fpConfirmPw"
+               placeholder="Confirm new password">
+        <button class="fp-eye" type="button" onclick="fpEye('fpConfirmPw')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="btn-fp-primary" onclick="fpResetPassword()">
+        Reset Password
+      </button>
+      <button class="btn-fp-back" onclick="fpGoStep(2)">← Back</button>
+    </div>
+
+    <!-- ── STEP 4: Success ── -->
+    <div class="fp-step" id="fpStep4">
+      <div class="success-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h5 class="fw-semibold text-center mb-1" style="color:#3b6d11;">
+        Password Reset Successful!
+      </h5>
+      <p class="text-muted small text-center mb-4">
+        Your password has been changed successfully.<br>
+        Please log in with your new password.
+      </p>
+      <button class="btn-fp-primary" onclick="fpClose()">Go to Login</button>
+    </div>
+
+  </div>
+</div>
+<!-- END MODAL -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/login.js"></script>
+
+<script>
+/* ════════════════════════════════════════════
+   FORGOT PASSWORD — COMPLETE JS
+════════════════════════════════════════════ */
+
+let fpCurrentEmail = '';          // email store karenge
+let fpVerifiedOtp  = '';          // verified OTP store karenge
+let countdownTimer = null;        // OTP countdown
+let resendTimer    = null;        // resend cooldown
+
+/* ─── Open / Close ─── */
+document.getElementById('forgotLink').addEventListener('click', e => {
+    e.preventDefault();
+    fpOpen();
+});
+
+function fpOpen() {
+    fpReset();
+    document.getElementById('fpOverlay').classList.add('active');
+}
+
+function fpClose() {
+    document.getElementById('fpOverlay').classList.remove('active');
+    fpReset();
+}
+
+// Close on backdrop click
+document.getElementById('fpOverlay').addEventListener('click', function(e) {
+    if (e.target === this) fpClose();
+});
+
+function fpReset() {
+    fpCurrentEmail = '';
+    fpVerifiedOtp  = '';
+    clearInterval(countdownTimer);
+    clearInterval(resendTimer);
+    document.getElementById('fpEmail').value     = '';
+    document.getElementById('fpNewPw').value     = '';
+    document.getElementById('fpConfirmPw').value = '';
+    document.getElementById('sFill').style.width = '0%';
+    document.getElementById('sTxt').textContent  = '';
+    document.querySelectorAll('.otp-box').forEach(b => b.value = '');
+    fpHideAlert();
+    fpGoStep(1);
+}
+
+/* ─── Step navigation ─── */
+function fpGoStep(n) {
+    fpHideAlert();
+    document.querySelectorAll('.fp-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('fpStep' + n).classList.add('active');
+    // Update dots
+    [1,2,3].forEach(i => {
+        const dot = document.getElementById('dot' + i);
+        dot.classList.remove('active','done');
+        if (i < n)       dot.classList.add('done');
+        else if (i === n) dot.classList.add('active');
+    });
+}
+
+/* ─── Alert helpers ─── */
+function fpShowAlert(msg, type = 'error') {
+    const el = document.getElementById('fpAlert');
+    el.textContent = msg;
+    el.className   = 'fp-alert ' + type;
+}
+function fpHideAlert() {
+    document.getElementById('fpAlert').className = 'fp-alert';
+}
+
+/* ─── Loader on button ─── */
+function fpLoading(btnId, loading, label) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.disabled    = loading;
+    btn.textContent = loading ? 'Please wait...' : label;
+}
+
+/* ════════════════════════════════════════════
+   STEP 1 — OTP Bhejo
+════════════════════════════════════════════ */
+async function fpSendOtp() {
+    const email = document.getElementById('fpEmail').value.trim().toLowerCase();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        fpShowAlert('Please enter a valid email address.'); return;
+    }
+
+    fpLoading('btnSendOtp', true, 'Send OTP');
+    fpHideAlert();
+
+    try {
+        const res  = await fetch('/forgot-password', {
+            method : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body   : JSON.stringify({ email })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            fpShowAlert(data.error || 'Something went wrong. Please try again.');
+            fpLoading('btnSendOtp', false, 'Send OTP');
+            return;
+        }
+
+        fpCurrentEmail = email;
+        document.getElementById('fpOtpMsg').textContent =
+            'A 6-digit OTP has been sent to "' + email + '".';
+
+        fpGoStep(2);
+        startOtpCountdown();
+        startResendCooldown();
+        setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 100);
+
+    } catch (err) {
+        fpShowAlert('Network error. Please check your internet connection.');
+        fpLoading('btnSendOtp', false, 'Send OTP');
+    }
+}
+
+/* ─── OTP Countdown (10 min) ─── */
+function startOtpCountdown() {
+    clearInterval(countdownTimer);
+    let secs = 10 * 60;  // 10 minutes
+    updateCountdown(secs);
+    countdownTimer = setInterval(() => {
+        secs--;
+        updateCountdown(secs);
+        if (secs <= 0) {
+            clearInterval(countdownTimer);
+            fpShowAlert('OTP has expired. Please request a new one.');
+        }
+    }, 1000);
+}
+
+function updateCountdown(s) {
+    const m = String(Math.floor(s / 60)).padStart(2,'0');
+    const sec = String(s % 60).padStart(2,'0');
+    document.getElementById('fpCountdown').textContent = m + ':' + sec;
+}
+
+/* ─── Resend cooldown (60s) ─── */
+function startResendCooldown() {
+    const btn = document.getElementById('btnResend');
+    btn.disabled = true;
+    let secs = 60;
+    btn.textContent = `Didn't receive OTP? Resend (available in ${secs}s)`;
+    resendTimer = setInterval(() => {
+        secs--;
+        btn.textContent = secs > 0
+            ? `Didn't receive OTP? Resend (available in ${secs}s)`
+            : "Didn't receive OTP? Resend";
+        if (secs <= 0) {
+            clearInterval(resendTimer);
+            btn.disabled = false;
+        }
+    }, 1000);
+}
+
+/* ─── OTP box interactions ─── */
+document.getElementById('otpRow').addEventListener('keydown', function(e) {
+    const boxes = [...document.querySelectorAll('.otp-box')];
+    const idx   = boxes.indexOf(e.target);
+    if (e.key === 'Backspace') {
+        e.target.value = '';
+        if (idx > 0) boxes[idx - 1].focus();
+    }
+});
+
+document.getElementById('otpRow').addEventListener('input', function(e) {
+    const boxes = [...document.querySelectorAll('.otp-box')];
+    const idx   = boxes.indexOf(e.target);
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    if (e.target.value && idx < 5) boxes[idx + 1].focus();
+});
+
+document.getElementById('otpRow').addEventListener('paste', function(e) {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData)
+        .getData('text').replace(/\D/g, '');
+    const boxes = document.querySelectorAll('.otp-box');
+    pasted.split('').slice(0, 6).forEach((ch, i) => { boxes[i].value = ch; });
+    boxes[Math.min(pasted.length, 5)].focus();
+});
+
+/* ════════════════════════════════════════════
+   STEP 2 — OTP Verify + Resend
+════════════════════════════════════════════ */
+async function fpVerifyOtp() {
+    const otp = [...document.querySelectorAll('.otp-box')].map(b => b.value).join('');
+    if (otp.length < 6) {
+        fpShowAlert('Please enter the complete 6-digit OTP.'); return;
+    }
+
+    fpLoading('btnVerifyOtp', true, 'Verify OTP');
+    fpHideAlert();
+
+    try {
+        const res  = await fetch('/verify-reset-otp', {
+            method : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body   : JSON.stringify({ email: fpCurrentEmail, otp })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            fpShowAlert(data.error || 'Incorrect OTP. Please try again.');
+            fpLoading('btnVerifyOtp', false, 'Verify OTP');
+            return;
+        }
+
+        fpVerifiedOtp = otp;
+        clearInterval(countdownTimer);
+        fpGoStep(3);
+        document.getElementById('fpNewPw').focus();
+
+    } catch (err) {
+        fpShowAlert('Network error. Please try again.');
+        fpLoading('btnVerifyOtp', false, 'Verify OTP');
+    }
+}
+
+async function fpResend() {
+    fpHideAlert();
+    const btn = document.getElementById('btnResend');
+    btn.disabled = true;
+
+    try {
+        const res  = await fetch('/resend-otp', {
+            method : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body   : JSON.stringify({ email: fpCurrentEmail })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            fpShowAlert(data.error || 'Failed to send OTP. Please try again.');
+            btn.disabled = false;
+            return;
+        }
+
+        fpShowAlert('A new OTP has been sent to your email!', 'success');
+        document.querySelectorAll('.otp-box').forEach(b => b.value = '');
+        document.querySelectorAll('.otp-box')[0].focus();
+        startOtpCountdown();
+        startResendCooldown();
+
+    } catch (err) {
+        fpShowAlert('Network error. Please try again.');
+        btn.disabled = false;
+    }
+}
+
+/* ════════════════════════════════════════════
+   STEP 3 — Password Reset
+════════════════════════════════════════════ */
+function fpStrength(val) {
+    const fill  = document.getElementById('sFill');
+    const txt   = document.getElementById('sTxt');
+    if (!val) { fill.style.width = '0%'; txt.textContent = ''; return; }
+    let score = 0;
+    if (val.length >= 8)           score++;
+    if (/[A-Z]/.test(val))         score++;
+    if (/[0-9]/.test(val))         score++;
+    if (/[^A-Za-z0-9]/.test(val))  score++;
+    const labels = ['','Weak','Fair','Good','Strong'];
+    const colors = ['','#dc3545','#ffc107','#198754','#0f6e56'];
+    fill.style.width           = (score * 25) + '%';
+    fill.style.backgroundColor = colors[score];
+    txt.textContent            = labels[score];
+    txt.style.color            = colors[score];
+}
+
+function fpEye(fieldId) {
+    const f = document.getElementById(fieldId);
+    f.type  = f.type === 'password' ? 'text' : 'password';
+}
+
+async function fpResetPassword() {
+    const newPw  = document.getElementById('fpNewPw').value;
+    const confPw = document.getElementById('fpConfirmPw').value;
+    fpHideAlert();
+
+    if (!newPw || newPw.length < 6) {
+        fpShowAlert('Password must be at least 6 characters long.'); return;
+    }
+    if (newPw !== confPw) {
+        fpShowAlert('Passwords do not match. Please try again.'); return;
+    }
+
+    try {
+        const res  = await fetch('/reset-password', {
+            method : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body   : JSON.stringify({
+                email       : fpCurrentEmail,
+                otp         : fpVerifiedOtp,
+                new_password: newPw
+            })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            fpShowAlert(data.error || 'Password reset failed. Please try again.'); return;
+        }
+
+        fpGoStep(4);
+
+    } catch (err) {
+        fpShowAlert('Network error. Please try again.');
+    }
+}
+</script>
 
 </body>
-
 </html>

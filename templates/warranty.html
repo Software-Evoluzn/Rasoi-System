@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Warranty</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
+
+    <style>
+        /* ── RESET & BASE ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:          #0d0f1a;
+            --card:        #141726;
+            --card2:       #1b1f35;
+            --border:      rgba(255,255,255,0.07);
+            --accent:      #a855f7;
+            --accent2:     #7c3aed;
+            --green:       #22c55e;
+            --red:         #ef4444;
+            --text:        #f0f0f8;
+            --muted:       #8b8fa8;
+            --radius:      18px;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 24px 16px 48px;
+        }
+
+        /* ── CARD ── */
+        .warrenty_card_container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            animation: fadeUp .45s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HEADER ── */
+        .warrenty_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 20px 16px;
+            background: linear-gradient(135deg, #1e1040 0%, #0d1433 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .warrenty_back_arrow {
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--accent);
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background .2s;
+        }
+        .warrenty_back_arrow:hover { background: rgba(168,85,247,.15); }
+
+        .warrenty_title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            color: #fff;
+        }
+
+        .warrenty_profile_img {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        .warrenty_horizontal_line {
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── MAIN CONTENT ── */
+        #w_main_content { padding: 22px 20px 0; }
+
+        /* ── ROWS ── */
+        .warrenty_row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            gap: 12px;
+        }
+        .warrenty_row:last-child { border-bottom: none; }
+
+        .warrenty_label {
+            color: var(--muted);
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .warrenty_data {
+            color: var(--text);
+            font-weight: 600;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        /* ── WARRANTY STATUS BOX ── */
+        .warrenty_box {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+
+        .warrenty_title_box {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 14px;
+            color: var(--accent);
+            letter-spacing: .3px;
+        }
+
+        /* Status badge */
+        .w_status_row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .w_status_badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 30px;
+            letter-spacing: .4px;
+        }
+        .badge-active  { background: rgba(34,197,94,.15);  color: var(--green); border: 1px solid rgba(34,197,94,.3); }
+        .badge-expired { background: rgba(239,68,68,.15);  color: var(--red);   border: 1px solid rgba(239,68,68,.3); }
+
+        /* Progress bar */
+        .w_progress_wrap {
+            background: rgba(255,255,255,.07);
+            border-radius: 99px;
+            height: 8px;
+            overflow: hidden;
+            margin: 10px 0 8px;
+        }
+        .w_progress_bar {
+            height: 100%;
+            border-radius: 99px;
+            width: 0%;
+            transition: width 1s cubic-bezier(.4,0,.2,1);
+        }
+        .bar-active  { background: linear-gradient(90deg, #22c55e, #86efac); }
+        .bar-expired { background: linear-gradient(90deg, #ef4444, #fca5a5); }
+
+        .w_days_left {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: right;
+            display: block;
+        }
+
+        /* ── ERROR BOX ── */
+        .w_error_box {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ── TEXTAREA ── */
+        .warrenty_message_area {
+            width: 100%;
+            min-height: 90px;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            padding: 12px 14px;
+            resize: vertical;
+            margin: 4px 0 16px;
+            outline: none;
+            transition: border .2s;
+        }
+        .warrenty_message_area:focus { border-color: var(--accent); }
+        .warrenty_message_area::placeholder { color: var(--muted); }
+
+        /* ── SUBMIT BUTTON ── */
+        .warrenty_btn_submit {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent2), var(--accent));
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            letter-spacing: .3px;
+            transition: opacity .2s, transform .15s;
+            margin-bottom: 8px;
+        }
+        .warrenty_btn_submit:hover  { opacity: .9; }
+        .warrenty_btn_submit:active { transform: scale(.98); }
+
+        /* ── FOOTER ── */
+        .otp_powered_by {
+            font-size: 12px;
+            text-align: center;
+            color: var(--muted);
+            padding: 18px 20px;
+        }
+
+        /* ── PADDING WRAPPER FOR BOTTOM SECTION ── */
+        .w_bottom_section { padding: 0 20px 20px; }
+
+        /* ── LOADING SKELETON (optional) ── */
+        .w_skeleton {
+            background: linear-gradient(90deg, var(--card2) 25%, #222640 50%, var(--card2) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite;
+            border-radius: 6px;
+            height: 16px;
+            display: inline-block;
+            width: 120px;
+        }
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="warrenty_card_container">
+
+    <!-- HEADER -->
+    <div class="warrenty_header">
+        <span class="warrenty_back_arrow" title="Go Back">&#8592;</span>
+        <span class="warrenty_title">Device Warranty</span>
+        <img src="https://ui-avatars.com/api/?name=U&background=7c3aed&color=fff&size=64"
+             class="warrenty_profile_img" alt="User">
+    </div>
+
+    <hr class="warrenty_horizontal_line">
+
+    <!-- MAIN DYNAMIC CONTENT -->
+    <div id="w_main_content">
+
+        <!-- DEVICE INFO ROWS -->
+        <div class="warrenty_row">
+            <span class="warrenty_label">Device Name</span>
+            <span class="warrenty_data" id="w_product_name">
+                <span class="w_skeleton"></span>
+            </span>
+        </div>
+
+        <div class="warrenty_row">
+            <span class="warrenty_label">User Name</span>
+            <span class="warrenty_data" id="w_customer_name">
+                <span class="w_skeleton"></span>
+            </span>
+        </div>
+
+        <div class="warrenty_row">
+            <span class="warrenty_label">Model Number</span>
+            <span class="warrenty_data" id="w_model_number">
+                <span class="w_skeleton"></span>
+            </span>
+        </div>
+
+        <div class="warrenty_row">
+            <span class="warrenty_label">Serial Number</span>
+            <span class="warrenty_data" id="w_serial_number">
+                <span class="w_skeleton"></span>
+            </span>
+        </div>
+
+        <div class="warrenty_row">
+            <span class="warrenty_label">MAC ID (Wi-Fi)</span>
+            <span class="warrenty_data" id="w_mac_id">
+                <span class="w_skeleton"></span>
+            </span>
+        </div>
+
+        <!-- WARRANTY STATUS BOX -->
+        <div class="warrenty_box">
+            <span class="warrenty_title_box">Warranty Status</span>
+
+            <div class="w_status_row">
+                <span class="warrenty_label">Status</span>
+                <span class="w_status_badge badge-active" id="w_status_badge">— —</span>
+            </div>
+
+            <div class="warrenty_row" style="padding: 8px 0;">
+                <span class="warrenty_label">Purchase Date</span>
+                <span class="warrenty_data" id="w_purchase_date">
+                    <span class="w_skeleton"></span>
+                </span>
+            </div>
+
+            <div class="warrenty_row" style="padding: 8px 0; margin-bottom: 10px;">
+                <span class="warrenty_label">Warranty Expires</span>
+                <span class="warrenty_data" id="w_warranty_expiry">
+                    <span class="w_skeleton"></span>
+                </span>
+            </div>
+
+            <!-- PROGRESS BAR -->
+            <div class="w_progress_wrap">
+                <div class="w_progress_bar bar-active" id="w_progress_bar"></div>
+            </div>
+            <span class="w_days_left" id="w_days_left">calculating…</span>
+        </div>
+
+    </div>
+    <!-- /w_main_content -->
+
+    <!-- BOTTOM SECTION (message + submit) -->
+    <div class="w_bottom_section">
+        <textarea class="warrenty_message_area"
+                  id="w_message"
+                  placeholder="Write a message or complaint (optional)…"></textarea>
+
+        <button class="warrenty_btn_submit" id="w_submit_btn">Submit</button>
+    </div>
+
+    <div class="otp_powered_by">Powered by EVOLUZN</div>
+
+</div>
+
+<!-- JS -->
+<script src="../static/js/warranty.js"></script>
+
+<!-- Submit handler (inline — no extra file needed) -->
+<script>
+    document.getElementById("w_submit_btn").addEventListener("click", function () {
+        const msg = document.getElementById("w_message").value.trim();
+        if (!msg) {
+            alert("Please write a message before submitting.");
+            return;
+        }
+        // TODO: POST to your support/message endpoint
+        alert("Message submitted successfully! Our team will contact you soon.");
+        document.getElementById("w_message").value = "";
+    });
+</script>
+
+</body>
+</html>

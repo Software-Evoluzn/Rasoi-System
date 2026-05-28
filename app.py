@@ -22,10 +22,16 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="root",
-    database="rasoi_system"
+   
 )
 
 cursor = db.cursor(dictionary=True)
+
+cursor.execute(
+    "CREATE DATABASE IF NOT EXISTS rasoi_system1"
+)
+
+cursor.execute("USE rasoi_system1")
 
 # Create tables 
 
@@ -55,11 +61,15 @@ cursor.execute("""
 
 CREATE TABLE IF NOT EXISTS products (
 
-    product_id INT PRIMARY KEY AUTO_INCREMENT,
+      product_id INT PRIMARY KEY AUTO_INCREMENT,
 
     product_name VARCHAR(100),
 
     serial_number VARCHAR(100),
+
+    model_number VARCHAR(100),
+
+    mac_id VARCHAR(100),
 
     qr_code VARCHAR(100),
 
@@ -98,6 +108,9 @@ CREATE TABLE IF NOT EXISTS product_registrations (
 )
 
 """)
+
+
+db.commit()
 
 
 # ----------------------------------create tables -------------------------------------------------
@@ -224,42 +237,59 @@ def add_product():
 
     data = request.json
 
-    product_id = data.get("product_id")
     product_name = data.get("product_name")
+
     serial_number = data.get("serial_number")
+
+    model_number = data.get("model_number")
+
+    mac_id = data.get("mac_id")
+
     qr_code = data.get("qr_code")
+
     warranty_years = data.get("warranty_years")
+
     created_at = data.get("created_at")
+
+    device_id = data.get("device_id")
+
+    isRegistered = data.get("isRegistered", False)
 
     query = """
     INSERT INTO products
     (
-        product_id,
         product_name,
         serial_number,
+        model_number,
+        mac_id,
         qr_code,
         warranty_years,
-        created_at
+        created_at,
+        device_id,
+        isRegistered
     )
-    VALUES (%s, %s, %s, %s, %s, %s)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
     values = (
-        product_id,
         product_name,
         serial_number,
+        model_number,
+        mac_id,
         qr_code,
         warranty_years,
-        created_at
+        created_at,
+        device_id,
+        isRegistered
     )
 
     cursor.execute(query, values)
+
     db.commit()
 
     return jsonify({
         "message": "Product added successfully"
     })
-    
     
 @app.route('/product/<device_id>')
 def product_page(device_id):
@@ -419,125 +449,6 @@ def register_product():
 
 
 # -----------------------------------------------------product linking  end ---------------------------------------
-
-# -------------------------------
-# SAVE OTP LOG
-# -------------------------------
-@app.route('/save-otp', methods=['POST'])
-def save_otp():
-    data = request.json
-
-    mobile = data.get('mobile')
-    otp = data.get('otp')
-
-    cursor.execute("""
-        INSERT INTO otp_logs (mobile, otp_code)
-        VALUES (%s, %s)
-    """, (mobile, otp))
-    db.commit()
-
-    return jsonify({
-        "status": "success",
-        "message": "OTP saved"
-    })
-
-
-# -------------------------------
-# VERIFY OTP
-# -------------------------------
-@app.route('/verify-otp', methods=['POST'])
-def verify_otp():
-    data = request.json
-
-    mobile = data.get('mobile')
-    otp = data.get('otp')
-
-    cursor.execute("""
-        SELECT * FROM otp_logs
-        WHERE mobile=%s AND otp_code=%s
-        ORDER BY otp_id DESC LIMIT 1
-    """, (mobile, otp))
-
-    result = cursor.fetchone()
-
-    if result:
-        cursor.execute("""
-            UPDATE otp_logs SET verified=1
-            WHERE otp_id=%s
-        """, (result['otp_id'],))
-        db.commit()
-
-        return jsonify({
-            "status": "success",
-            "message": "OTP verified"
-        })
-
-    return jsonify({
-        "status": "error",
-        "message": "Invalid OTP"
-    }), 400
-
-
-# -------------------------------
-# WARRANTY CHECK
-# -------------------------------
-@app.route('/warranty/<serial_number>', methods=['GET'])
-def check_warranty(serial_number):
-    cursor.execute("""
-        SELECT rp.serial_number, rp.product_name,
-               wr.warranty_start, wr.warranty_end, wr.status
-        FROM registered_products rp
-        JOIN warranty_records wr
-        ON rp.registration_id = wr.registration_id
-        WHERE rp.serial_number=%s
-    """, (serial_number,))
-
-    result = cursor.fetchone()
-
-    if result:
-        return jsonify(result)
-
-    return jsonify({
-        "status": "error",
-        "message": "No warranty found"
-    }), 404
-
-
-# -------------------------------
-# CREATE SERVICE TICKET
-# -------------------------------
-@app.route('/create-ticket', methods=['POST'])
-def create_ticket():
-    data = request.json
-
-    serial_number = data.get('serial_number')
-    issue = data.get('issue_description')
-
-    cursor.execute("""
-        SELECT registration_id FROM registered_products
-        WHERE serial_number=%s
-    """, (serial_number,))
-    product = cursor.fetchone()
-
-    if not product:
-        return jsonify({
-            "status": "error",
-            "message": "Product not found"
-        }), 404
-
-    registration_id = product['registration_id']
-
-    cursor.execute("""
-        INSERT INTO service_tickets
-        (registration_id, issue_description)
-        VALUES (%s, %s)
-    """, (registration_id, issue))
-    db.commit()
-
-    return jsonify({
-        "status": "success",
-        "message": "Service ticket created"
-    })
 
 
 # -------------------------------

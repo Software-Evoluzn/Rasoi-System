@@ -7,7 +7,7 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="root",
-    database="rasoi_system"
+    database="rasoi_system1"
 )
 
 cursor = db.cursor()
