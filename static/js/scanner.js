@@ -146,7 +146,8 @@ document.querySelector(".scanner_link_btn")
                 warranty_years : data.warranty_years,
             }));
 
-            window.location.href = `/warranty-page?serial=${encodeURIComponent(serial)}`;
+            // window.location.href = `/warranty-page?serial=${encodeURIComponent(serial)}`;
+            window.location.href = `/dashboard_page`;
 
         } catch (error) {
             console.error(error);

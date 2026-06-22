@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Grain</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
+
+    <link rel="stylesheet" href="../static/css/single_grain.css">
+
+</head>
+
+<body>
+
+    <div class="single_grain_container">
+
+        <header class="single_grain_header">
+            <button class="single_grain_nav_btn" aria-label="Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <h1 class="single_grain_title">My Kitchen Tools</h1>
+            <div class="single_grain_profile">
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </header>
+
+        <main class="single_grain_main">
+
+            <div class="single_grain_brand">
+                <div>
+                    <img style="height: 45px;" src="../static/img/Capture.PNG" alt="Rasoi Logo">
+                </div>
+                <p class="single_grain_tagline">Smart Home Automation Products</p>
+            </div>
+
+            <div class="single_grain_ingredient_card">
+
+                <h2 class="single_grain_ingredient_name" id="grainName">
+                    LOADING...
+                </h2>
+
+                <div class="single_grain_image_wrapper">
+
+                    <img id="grainImage" class="single_grain_img" alt="Selected Grain">
+
+                </div>
+
+            </div>
+
+            <div class="single_grain_controls">
+                <h3 class="single_grain_control_label">Grinding Texture</h3>
+
+                <div class="single_grain_slider_wrapper">
+
+                    <div class="single_grain_side_control">
+                        <button class="single_grain_step_btn" id="decrementBtn"
+                            aria-label="Decrease thickness">−</button>
+                        <span class="single_grain_side_label">COARSE</span>
+                    </div>
+
+                    <div class="single_grain_slider_container">
+                        <div class="single_grain_range_capsule">
+                            <input type="range" min="1" max="20" value="8" class="single_grain_slider"
+                                id="textureSlider">
+                        </div>
+
+                        <div class="single_grain_ticks_wrapper">
+                            <div class="single_grain_ticks">
+                                <span></span><span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="single_grain_side_control">
+                        <button class="single_grain_step_btn" id="incrementBtn"
+                            aria-label="Increase thickness">+</button>
+                        <span class="single_grain_side_label">FINE</span>
+                    </div>
+
+                </div>
+
+                <div class="single_grain_level_display">
+                    Level <span id="levelValue">8</span>
+                </div>
+            </div>
+
+            <button class="single_grain_start_btn">START</button>
+
+        </main>
+
+        <footer class="single_grain_footer">
+            POWERED BY EVOLUZN
+        </footer>
+
+    </div>
+
+    <script src="../static/js/single_grain.js"></script>
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+   /* --- Global Resets & Layout --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Main Layout Container --- */
+        .grain_app_container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            min-height: 850px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* --- Header Styling --- */
+        .grain_app_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .grain_header_title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0b2240;
+        }
+
+        /* Hamburger Menu Icon */
+        .grain_menu_btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .grain_menu_btn span {
+            display: block;
+            width: 22px;
+            height: 3px;
+            background-color: #0b2240;
+            border-radius: 2px;
+        }
+
+        /* Profile Icon Styling */
+        .grain_profile_icon svg {
+            width: 36px;
+            height: 36px;
+            fill: #512da8;
+            cursor: pointer;
+        }
+
+        /* --- Main Content Layout --- */
+        .grain_main_content {
+            flex: 1;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Branding --- */
+        .grain_brand_container {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .grain_brand_logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .grain_brand_rasoi {
+            color: #4a2d82;
+        }
+
+        .grain_brand_shop {
+            color: #d32f2f;
+            margin-left: 2px;
+        }
+
+        .grain_brand_subtitle {
+            font-size: 0.8rem;
+            color: #798da3;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .grain_section_title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Grid Setup --- */
+        .grain_grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        /* --- Interactive Grain Cards --- */
+        .grain_card {
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Hide standard radio button visually */
+        .grain_card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Card layout box */
+        .grain_card_content {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100px;
+            transition: all 0.2s ease-in-out;
+            background-color: #ffffff;
+        }
+
+        .grain_card_content img {
+            width: 65px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .grain_card_content span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-align: center;
+            color: #333333;
+        }
+
+        /* Visual feedback on selection */
+        .grain_card input[type="radio"]:checked+.grain_card_content {
+            border-color: #512da8;
+            box-shadow: 0 0 0 2px rgba(81, 45, 168, 0.2);
+            background-color: rgba(81, 45, 168, 0.02);
+        }
+
+        /* Custom styling for 'Others' icon circle */
+        .grain_others_icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #00acc1;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+
+        .grain_others_icon span {
+            width: 5px;
+            height: 5px;
+            background-color: #00acc1;
+            border-radius: 50%;
+        }
+
+        /* --- Control Buttons --- */
+        .grain_action_container {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            padding-bottom: 10px;
+        }
+
+        .grain_btn {
+            flex: 1;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            color: #ffffff;
+            background-color: #513273;
+        }
+
+        .grain_btn:active {
+            opacity: 0.9;
+        }
+
+        /* --- App Footer --- */
+        .grain_app_footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 0.65rem;
+            color: #777777;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }

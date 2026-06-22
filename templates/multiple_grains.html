@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Grains</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../static/img/tab_logo.png">
+    <link rel="stylesheet" href="../static/css/multiple_grains.css">
+
+
+</head>
+
+<body>
+
+    <div class="grain_app_container">
+        <header class="grain_app_header">
+            <button class="grain_menu_btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1 class="grain_header_title">My Kitchen Tools</h1>
+            <div class="grain_profile_icon">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,8.3A3,3 0 1,1 9,11.3A3,3 0 0,1 12,8.3M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2Z" />
+                </svg>
+            </div>
+        </header>
+
+        <main class="grain_main_content">
+            <div class="grain_brand_container">
+                <div>
+                    <img style=" height: 45px;" src="../static/img/Capture.PNG" alt="logo">
+                </div>
+                <p class="grain_brand_subtitle">Smart Home Automation Products</p>
+            </div>
+
+            <h2 class="grain_section_title">PLEASE SELECT THE GRAIN</h2>
+
+            <div class="grain_grid" id="grainGrid">
+
+                <!-- OTHERS STATIC CARD -->
+
+                <label class="grain_card">
+                    <input type="radio" name="grain_select" value="others">
+
+                    <div class="grain_card_content">
+
+                        <div class="grain_others_icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <span>OTHERS</span>
+
+                    </div>
+                </label>
+
+            </div>
+
+            <div class="grain_action_container">
+                <button class="grain_btn">CLEAN STONE</button>
+                <button class="grain_btn">START</button>
+            </div>
+        </main>
+
+        <footer class="grain_app_footer">
+            POWERED BY EVOLUZN
+        </footer>
+    </div>
+
+
+    <script src="../static/js/multiple_grain.js"></script>
+
+</body>
+
+</html>

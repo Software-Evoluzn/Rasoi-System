@@ -106,7 +106,49 @@ CREATE TABLE IF NOT EXISTS password_reset_otps (
 )
 """)
 
+
+#Grains table
+cur.execute("""
+CREATE TABLE IF NOT EXISTS grains (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    value_name VARCHAR(100),
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+""")
+
 db.commit()
+
+print("Here Sejal !!!!!")
+
+# -------------------------------
+# INSERT DEFAULT GRAINS
+# ------------------------------
+
+cur.execute("SELECT COUNT(*) as total FROM grains")
+count = cur.fetchone()
+
+if count["total"] == 0:
+
+    grains_data = [
+        ("WHEAT", "wheat", "../static/img/wheat.png"),
+        ("CHANA DAL", "chana_dal", "../static/img/chana_dal.png"),
+        ("RICE", "rice", "../static/img/rice.png"),
+        ("RAGI", "ragi", "../static/img/ragi.png"),
+        ("JOWAR", "jowar", "../static/img/jowar.png"),
+        ("BAJRA", "bajra", "../static/img/bajra.png"),
+        ("MASALA", "masala", "../static/img/masala.png")
+    ]
+
+    cur.executemany("""
+        INSERT INTO grains(name, value_name, image)
+        VALUES (%s, %s, %s)
+    """, grains_data)
+
+    db.commit()
+
+    print("✅ Default grains inserted")
 
 
 
@@ -484,6 +526,8 @@ def product_link():
     return render_template('scanner.html')
 
 
+
+
 @app.route('/add-product', methods=['POST'])
 def add_product():
     data          = request.json
@@ -504,7 +548,7 @@ def add_product():
     return jsonify({"message": "Product added successfully"})
 
 
-@app.route('/product/<device_id>')
+@app.route('/product/<device_id>') 
 def product_page(device_id):
     cur = get_cursor()
     cur.execute("SELECT * FROM products WHERE device_id=%s", (device_id,))
@@ -762,6 +806,69 @@ def check_warranty(serial_number):
     except Exception as e:
         print(f"[WARRANTY] 💥 ERROR: {e}")
         return jsonify({"error": str(e)}), 500
+    
+# ------------------------------------------------Dashboard Page ----------------------------------------------------------
+    
+@app.route('/dashboard_page')
+def dashboard_link():
+    return render_template('dashboard.html')
+
+# -------------------------------------------------------------------------------------------------------------------------
+
+
+
+# ---------------------------------------------Multiple grain ------------------------------------------------------------
+@app.route('/multiple_grain_page')
+def multiple_grain_link():
+    return render_template('multiple_grains.html')
+
+
+
+# --------------------------------------------- GRAIN API --------------------------------------------
+
+@app.route('/api/grains', methods=['GET'])
+def get_grains():
+
+    try:
+
+        cur = get_cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                name,
+                value_name,
+                image
+            FROM grains
+        """)
+
+        grains = cur.fetchall()
+
+        return jsonify(grains), 200
+
+    except Exception as e:
+        return jsonify({
+            "error": str(e)
+        }), 500
+
+# ----------------------------------------------------------------------------------------------------
+    
+    
+
+
+
+# -----------------------------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------Single grain ---------------------------------------------------------
+
+@app.route('/single_grain_page')
+def single_grain_link():
+    return render_template('single_grain.html')
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+
     
     
 if __name__ == '__main__':

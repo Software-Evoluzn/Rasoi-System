@@ -1,0 +1,310 @@
+   /* Global Reset & Body */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #222222;
+            display: flex;
+            font-family: system-ui, -apple-system, sans-serif;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main Container (App Shell) */
+        .single_grain_container {
+            background-color: #ffffff;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-height: 932px;
+            max-width: 430px;
+            overflow-y: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        @media (min-width: 440px) {
+            .single_grain_container {
+                border-radius: 24px;
+                height: 85vh;
+            }
+        }
+
+        /* Header Layout */
+        .single_grain_header {
+            align-items: center;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 20px;
+        }
+
+        .single_grain_nav_btn {
+            background: none;
+            border: none;
+            color: #51337a;
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+
+        .single_grain_title {
+            color: #0b2240;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .single_grain_profile {
+            background-color: #51337a;
+            border-radius: 50%;
+            color: #ffffff;
+            display: flex;
+            font-size: 0.95rem;
+            height: 36px;
+            width: 36px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main Layout View */
+        .single_grain_main {
+            align-items: center;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 24px 20px;
+        }
+
+        /* Header Branding Logos */
+        .single_grain_brand {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .single_grain_logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .single_grain_logo_rasoi {
+            color: #51337a;
+        }
+
+        .single_grain_logo_shop {
+            color: #c0392b;
+            margin-left: 2px;
+        }
+
+        .single_grain_tagline {
+            color: #7f8c8d;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-top: 4px;
+        }
+
+        /* Ingredient Card Display */
+        .single_grain_ingredient_card {
+            margin-bottom: 24px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .single_grain_ingredient_name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .single_grain_image_wrapper {
+            align-items: center;
+            display: flex;
+            height: 140px;
+            margin: 0 auto;
+            width: 140px;
+            justify-content: center;
+        }
+
+        .single_grain_img {
+            height: auto;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        /* Grinding Controls Panel */
+        .single_grain_controls {
+            margin-bottom: 36px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .single_grain_control_label {
+            color: #222222;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        /* Main Flex Wrapper for Stepper Elements */
+        .single_grain_slider_wrapper {
+            align-items: flex-start;
+            display: flex;
+            gap: 14px;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        /* Side Control Columns (Button + Text Label) */
+        .single_grain_side_control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 64px;
+            flex-shrink: 0;
+        }
+
+        .single_grain_step_btn {
+            background-color: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #555555;
+            cursor: pointer;
+            display: flex;
+            font-size: 1.2rem;
+            height: 38px;
+            width: 38px;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .single_grain_step_btn:active {
+            background-color: #ece6f5;
+        }
+
+        .single_grain_side_label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #222222;
+            letter-spacing: 0.3px;
+        }
+
+        /* Center Slider Unit Container */
+        .single_grain_slider_container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Pills Capsule Border Wrapper */
+        .single_grain_range_capsule {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            background-color: #ffffff;
+        }
+
+        /* Custom Input Range Component */
+        .single_grain_slider {
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 4px;
+            height: 8px;
+            outline: none;
+            width: 100%;
+            z-index: 2;
+            /* Default initial fill calculation for Level 8 of 20 (approx 36.8%) */
+            background: linear-gradient(to right, #794AFC 0%, #794AFC 36.8%, #f1f1f1 36.8%, #f1f1f1 100%);
+        }
+
+        /* Range Thumb Circle Customizing */
+        .single_grain_slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #794AFC;
+            border-radius: 50%;
+            cursor: pointer;
+            height: 22px;
+            width: 22px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s;
+        }
+
+        .single_grain_slider::-webkit-slider-thumb:active {
+            transform: scale(1.15);
+        }
+
+        /* Tick Marks Layout Panel */
+        .single_grain_ticks_wrapper {
+            width: 100%;
+            padding: 0 12px;
+            margin-top: 6px;
+        }
+
+        .single_grain_ticks {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .single_grain_ticks span {
+            background-color: #e2e8f0;
+            height: 10px;
+            width: 2px;
+        }
+
+        /* Typography Level Text View */
+        .single_grain_level_display {
+            color: #757575;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 14px;
+        }
+
+        /* Main CTA Start Action Button */
+        .single_grain_start_btn {
+            background-color: #51337a;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(81, 51, 122, 0.2);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 14px 0;
+            transition: transform 0.1s ease, background-color 0.2s;
+            width: 50%;
+        }
+
+        .single_grain_start_btn:hover {
+            background-color: #412663;
+        }
+
+        .single_grain_start_btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer Legal Attribution */
+        .single_grain_footer {
+            color: #757575;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 16px 0;
+            text-align: center;
+        }
